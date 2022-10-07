@@ -37,6 +37,9 @@ struct Download: ParsableCommand {
     @Flag(name: .long, help: "Obtain a license for the app if needed.")
     private var purchase: Bool = false
 
+    @Option(name: [.short, .long], help: "Override system device token.")
+    private var token: String = DeviceToken.current()
+
     lazy var logger = ConsoleLogger(level: logLevel)
 }
 
@@ -85,7 +88,7 @@ extension Download {
         let httpClient = HTTPClient(session: URLSession.shared)
 
         logger.log("Creating App Store client...", level: .debug)
-        let storeClient = StoreClient(httpClient: httpClient)
+        let storeClient = StoreClient(httpClient: httpClient, token: token)
 
         do {
             logger.log("Obtaining a license for '\(app.identifier)' from the App Store...", level: .info)
@@ -129,7 +132,7 @@ extension Download {
         let httpClient = HTTPClient(session: URLSession.shared)
 
         logger.log("Creating App Store client...", level: .debug)
-        let storeClient = StoreClient(httpClient: httpClient)
+        let storeClient = StoreClient(httpClient: httpClient, token: token)
 
         do {
             logger.log("Requesting a signed copy of '\(app.identifier)' from the App Store...", level: .info)

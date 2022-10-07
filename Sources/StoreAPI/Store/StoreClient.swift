@@ -21,9 +21,11 @@ public protocol StoreClientInterface {
 
 public final class StoreClient: StoreClientInterface {
     private let httpClient: HTTPClient
+    private let deviceToken: String
 
-    public init(httpClient: HTTPClient) {
+    public init(httpClient: HTTPClient, token: String?) {
         self.httpClient = httpClient
+        self.deviceToken = token ?? DeviceToken.current()
     }
 
     public func authenticate(email: String, password: String, code: String?) throws -> StoreResponse.Account {

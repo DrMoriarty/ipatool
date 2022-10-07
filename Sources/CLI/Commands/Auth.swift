@@ -40,6 +40,9 @@ extension Auth {
         @Option(name: [.long], help: "The log level.")
         private var logLevel: LogLevel = .info
 
+        @Option(name: [.short, .long], help: "Override system device token.")
+        private var token: String = DeviceToken.current()
+
         lazy var logger = ConsoleLogger(level: logLevel)
     }
 
@@ -106,7 +109,7 @@ extension Auth.Login {
         let httpClient = HTTPClient(session: URLSession.shared)
 
         logger.log("Creating App Store client...", level: .debug)
-        let storeClient = StoreClient(httpClient: httpClient)
+        let storeClient = StoreClient(httpClient: httpClient, token: token)
 
         do {
             logger.log("Authenticating with the App Store...", level: .info)

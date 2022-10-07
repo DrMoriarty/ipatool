@@ -12,8 +12,8 @@ struct IPATool: ParsableCommand {
         return CommandConfiguration(
             commandName: "ipatool",
             abstract: "A cli tool for interacting with Apple's ipa files.",
-            version: "1.0.0",
-            subcommands: [Auth.self, Download.self, Purchase.self, Search.self]
+            version: Package.version,
+            subcommands: [Auth.self, Download.self, Purchase.self, Search.self, Token.self]
         )
     }
 }

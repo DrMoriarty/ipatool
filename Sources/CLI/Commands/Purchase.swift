@@ -78,7 +78,7 @@ extension Purchase {
         let httpClient = HTTPClient(session: URLSession.shared)
 
         logger.log("Creating App Store client...", level: .debug)
-        let storeClient = StoreClient(httpClient: httpClient)
+        let storeClient = StoreClient(httpClient: httpClient, token: nil)
 
         do {
             logger.log("Obtaining a license for '\(app.identifier)' from the App Store...", level: .info)
