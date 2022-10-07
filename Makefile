@@ -20,16 +20,17 @@ define ios_entitlements
 endef
 
 lint:
-	swiftlint lint --config .swiftlint.yml --path Sources/ Tests/m Plugins/
+	swiftlint lint --config .swiftlint.yml --path Sources/ Tests/ Plugins/
 
-build-macos: lint
-	swift build -c release --arch arm64
-	swift build -c release --arch x86_64
+build-macos: 
+	/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift build -c release --arch arm64
+	/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift build -c release --arch x86_64
 	lipo -create -output .build/ipatool .build/arm64-apple-macosx/release/ipatool .build/x86_64-apple-macosx/release/ipatool
 
-build-ios: lint
+build-ios: 
 	xcodegen -s ios-project.yml
 	xcodebuild archive -scheme CLI \
+            -toolchain swift \
             -sdk iphoneos \
             -configuration Release \
             -derivedDataPath .build \
